@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fast I18n po file editor</title>
+        <script src="js/jquery-1.12.2.min.js"></script>
+        <script src="js/angular-1.6.6.min.js"></script>
+        <link rel="shortcut icon" type="image/png" href="favicon.png">
+        <link rel="stylesheet" href="css/styles.css">
+        <meta name="description"
+            content="Upload .po file and edit them on the spot, The Editor will show all the data about the .po file content and saves the data with little changes as possible NO SERVER!!">
+        <meta name="keywords"
+            content=".po editor, .po file editor, language editor, standalone i18n file editor, i18n, po,.po">
+        <meta name="author" content="Yoni Mood">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body data-ng-app="myApp" ng-controller="Values">
+        <h1>Smallest .Po Langauge File Editor</h1>
+        <div id="drop-area">
+            <form class="drop-form">
+                <p>Upload .po file and edit them on the spot, The Editor shows all the data about the .po file content and
+                    saves the data with little changes as possible</p>
+                <input type="file" id="fileElem" accept="*/*" ng-model="files.value"
+                    onchange="angular.element(this).scope().handleFiles($(this))">
+                <label class="button select-file grow" for="fileElem">Upload .po file</label>
+            </form>
+            <div class="progress-bar">
+                <progress id="" max=100 value="{{upload_value.file}}"></progress>
+            </div>
+        </div>
+
+        <div id="values" class="page">
+
+            <div ng-repeat="x in values track by $index" class="line">
+
+                <label class="title" type="text">{{x.msgid}}</label>
+                <p class="ref">{{x.notes}}</p>
+                <input class="value" type="text" ng-model="x.msgstr" />
+
+            </div>
+            <button class="submit" ng-click="download()">Download Po File</button>
+
+        </div>
+        <script src="js/script.js"></script>
+    </body>
+</html>
