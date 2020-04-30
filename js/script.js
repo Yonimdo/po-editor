@@ -10,6 +10,7 @@ myApp.controller('Values', ['$scope', '$interval', '$timeout', function ($scope,
     $scope.s = [];
     $scope.values = [];
     $scope.keys = {};
+    $scope.fileName = ""
     $scope.files = { value: "" };
     $scope.upload_value = { file: "" }
 
@@ -31,7 +32,7 @@ myApp.controller('Values', ['$scope', '$interval', '$timeout', function ($scope,
         let output= '';
         s.map(item => {
             output = `${output}\n\n${item.raw.replace(
-                ((/(msgstr\s.+")/g).exec(i) || ['msgstr \"\"'])[0],
+                ((/(msgstr\s.+")/g).exec(item) || ['msgstr \"\"'])[0],
                 `msgstr \"${item.msgstr}\"`
             )}`
         });
@@ -44,10 +45,10 @@ myApp.controller('Values', ['$scope', '$interval', '$timeout', function ($scope,
     };
 
     $scope.download = function () {
-        result = listToFile($scope.s);
+        result = listToFile($scope.values);
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(result));
-        element.setAttribute('download', "django.po");
+        element.setAttribute('download', $scope.fileName);
 
         element.style.display = 'none';
         document.body.appendChild(element);
@@ -69,6 +70,7 @@ myApp.controller('Values', ['$scope', '$interval', '$timeout', function ($scope,
     }
 
     $scope.handleFiles = function(jqur) {
+        $scope.fileName = jqur[0].files[0].name;
         let reader = new FileReader()
         reader.readAsText(jqur[0].files[0])
         reader.onloadend = function() {
